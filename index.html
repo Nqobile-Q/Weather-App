@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>🌤 Weather App</h1>
+
+    <form id="weatherForm">
+      <input type="text" id="cityInput" placeholder="Enter location..." />
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="weather-info" id="weatherResult">
+      <p>Search for a city to see the weather...</p>
+    </div>
+  </div>
+
+  <footer>Powered by WeatherAPI.com</footer>
+
+  <script>
+    const API_KEY = "f4dbec5a0cd44fe7b8c104832251311";
+
+    const weatherForm = document.getElementById("weatherForm");
+    const cityInput = document.getElementById("cityInput");
+    const weatherResult = document.getElementById("weatherResult");
+    const body = document.body;
+
+    weatherForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const city = cityInput.value.trim();
+      if (!city) {
+        weatherResult.innerHTML = "<p>❌ Please enter a location.</p>";
+        return;
+      }
+      getWeather(city);
+      cityInput.value = "";
+    });
+
+    function getWeather(location) {
+      weatherResult.innerHTML = "<p>Loading weather data...</p>";
+      const url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(location)}&aqi=no`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => showWeather(data))
+        .catch(() => {
+          weatherResult.innerHTML = "<p>❌ Unable to fetch weather data.</p>";
+        });
+    }
+
+    function showWeather(data) {
+      if (data.error) {
+        weatherResult.innerHTML = `<p>❌ ${data.error.message}</p>`;
+        body.style.background = "linear-gradient(to right, #74ebd5, #9face6)";
+        return;
+      }
+
+      const condition = data.current.condition.text.toLowerCase();
+      const icon = `https:${data.current.condition.icon}`;
+      const isDay = data.current.is_day;
+
+      weatherResult.innerHTML = `
+        <h2>${data.location.name}, ${data.location.country}</h2>
+        <img src="${icon}" alt="${condition}">
+        <p><strong>${data.current.temp_c.toFixed(1)}°C</strong></p>
+        <p>${data.current.condition.text}</p>
+        <p>Feels like: ${data.current.feelslike_c.toFixed(1)}°C</p>
+        <p>Humidity: ${data.current.humidity}%</p>
+        <p>Wind: ${data.current.wind_kph} kph</p>
+      `;
+
+      // Dynamic background based on weather
+      if (condition.includes("sunny") || condition.includes("clear")) {
+        body.style.background = isDay 
+          ? "linear-gradient(to right, #fceabb, #f8b500)" 
+          : "linear-gradient(to right, #2c3e50, #34495e)";
+      } else if (condition.includes("cloud")) {
+        body.style.background = isDay 
+          ? "linear-gradient(to right, #bdc3c7, #2c3e50)" 
+          : "linear-gradient(to right, #1c1c1c, #2c3e50)";
+      } else if (condition.includes("rain") || condition.includes("drizzle")) {
+        body.style.background = isDay 
+          ? "linear-gradient(to right, #4e54c8, #8f94fb)" 
+          : "linear-gradient(to right, #2c3e50, #4e54c8)";
+      } else if (condition.includes("snow")) {
+        body.style.background = isDay 
+          ? "linear-gradient(to right, #e0eafc, #cfdef3)" 
+          : "linear-gradient(to right, #4b6cb7, #182848)";
+      } else {
+        body.style.background = isDay 
+          ? "linear-gradient(to right, #74ebd5, #9face6)" 
+          : "linear-gradient(to right, #0f2027, #203a43)";
+      }
+    }
+  </script>
+
+</body>
+</html>

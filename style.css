@@ -1,0 +1,73 @@
+/* App.css - Dark Theme */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(to right, #000000, #0a0a2a); /* black to navy */
+  color: #ffffff;
+  transition: background 0.8s ease, color 0.5s ease;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 400px;
+  margin: auto;
+  background: rgba(20, 20, 40, 0.9); /* semi-transparent dark */
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+h1 {
+  color: #00bfff; /* bright blue */
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  width: 60%;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background: #1a1a2e; /* dark input */
+  color: #ffffff;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+button {
+  padding: 10px 15px;
+  margin-left: 5px;
+  border-radius: 8px;
+  border: none;
+  background: #001f4d; /* navy blue */
+  color: #00bfff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #003366; /* brighter navy on hover */
+}
+
+.weather-info {
+  margin-top: 20px;
+}
+
+.weather-info img {
+  width: 80px;
+  margin: 10px 0;
+}
+
+.weather-info p {
+  margin: 5px 0;
+  color: #ffffff;
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
