@@ -6,7 +6,6 @@ A simple and responsive weather app that provides real-time weather updates for 
 
 - View current weather conditions
 - Check temperature, humidity, and wind speed
-- 7-day weather forecast
 - Search weather by city
 - Responsive design for mobile and desktop
 
